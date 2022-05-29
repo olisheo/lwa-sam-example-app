@@ -1,0 +1,72 @@
+<!-- https://developer.amazon.com/ja/docs/login-with-amazon/add-a-button-web.html -->
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>
+        Login With Amazon example
+    </title>
+    <script src="./endpoint-config.js"></script>
+</head>
+
+<body>
+    <div id="amazon-root"></div>
+    <script type="text/javascript">
+        window.onAmazonLoginReady = function () {
+            amazon.Login.setClientId(ENDPOINT_CONFIG.lwaClientId);
+        };
+        (function (d) {
+            var a = d.createElement('script'); a.type = 'text/javascript';
+            a.async = true; a.id = 'amazon-login-sdk';
+            a.src = 'https://assets.loginwithamazon.com/sdk/na/login1.js';
+            d.getElementById('amazon-root').appendChild(a);
+        })(document);
+
+    </script>
+    <div>
+        <div>
+            <label for="lwaRegion"> You can change LWA region by selecting option: setRegion is called for LWA
+                SDK.</label>
+            <select id="lwaRegion">
+                <option value="none">default - won't call SetRegion</option>
+                <option value="amazon.Login.Region.NorthAmerica">NA: amazon.Login.Region.NorthAmerica</option>
+                <option value="amazon.Login.Region.Europe">EU: amazon.Login.Region.Europe</option>
+                <option value="amazon.Login.Region.AsiaPacific">FE: amazon.Login.Region.AsiaPacific</option>
+            </select>
+        </div>
+        <div>
+            <a href id="LoginWithAmazon">
+                <img border="0" alt="Login with Amazon"
+                    src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_156x32.png" width="156"
+                    height="32" />
+            </a>
+            <script type="text/javascript">
+                var regionOption = document.getElementById('lwaRegion');
+                document.getElementById('LoginWithAmazon').onclick = function () {
+                    if (regionOption.selectedIndex !== 0) {
+                        console.log(`selected region:${regionOption.options[regionOption.selectedIndex].value}`);
+                        amazon.Login.setRegion(regionOption.options[regionOption.selectedIndex].value);
+                    }
+                    options = {}
+                    options.response_type = 'code';
+                    options.state = '123456789ABCDEF'; // arbitrary state value.
+                    options.scope = 'profile';
+                    options.scope_data = {
+                        'profile': { 'essential': false }
+                    };
+                    amazon.Login.authorize(options,
+                        ENDPOINT_CONFIG.redirectUrl);
+                    return false;
+                };
+                function regionChange(select) {
+                    var index = select.selectedIndex;
+                    var region = select.options[index].value;
+
+                }
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>

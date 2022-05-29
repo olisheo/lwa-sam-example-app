@@ -1,0 +1,33 @@
+<!-- https://developer.amazon.com/ja/docs/login-with-amazon/add-a-button-web.html -->
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./endpoint-config.js"></script>
+    <title>
+        Login With Amazon example - This page sends the grant code to sample token endpoint.
+    </title>
+</head>
+
+<body>
+    <h2>you will see access token if this sample app works fine.</h2>
+    <div>parameters this page received at opening: <span id="parameterOutput"> </span></div>
+    <hr />
+    <div>access token: <span id="receivedOutput"></div>
+    </div>
+    <script>
+        window.onload = () => {
+            var elem = document.getElementById("parameterOutput");
+            var parameters = location.search; // this inccludes "?" at the beginning. You must not add "?".
+            elem.innerHTML = parameters;
+            axios.get(`${ENDPOINT_CONFIG.appTokenApiEndpoint}${ENDPOINT_CONFIG.appTokenApiPath}${parameters}`).then((res) => {
+                var elemReceived = document.getElementById("receivedOutput");
+                elemReceived.innerHTML = `${res.data}`;
+            })
+        };
+    </script>
+</body>
+
+</html>

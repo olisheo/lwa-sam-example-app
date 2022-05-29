@@ -1,0 +1,6 @@
+const ENDPOINT_CONFIG = {
+    appTokenApiEndpoint: "https://example.com/api",
+    appTokenApiPath: "/yourOAuthServiceEndpoint",
+    lwaClientId: "amzn1.application-oa2-client.YourClientId",
+    redirectUrl: "https://your.webpage.to.receive.auth.code.com/token.html",
+};
